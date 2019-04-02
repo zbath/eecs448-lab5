@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Deleting stuff that isn't yours.</title>
+  </head>
+  <body>
+    <h1>Hi. Please delete all the stuff I worked hard on.</h1>
+    <p>Below is a list of stuff that was required for grading.</p>
+    <form action="DeletePost.php" method="post">
+      <table border="1">
+        <tr>
+          <th>Posts</th>
+          <th>Authors</th>
+          <th>Delete?</th>
+        </tr>
+         <?php dewIt() ?> <!-- Need checkboxes after each data entry -->
+      </table>
+      <br>
+      <button type="submit" name="formSubmit">Confirm Deletion.</button>
+    </form>
+  </body>
+</html>
+
+
+<?php
+
+function dewIt()
+{
+  $mysqli = new mysqli("mysql.eecs.ku.edu", "m576b515", "aixee9Ku", "m576b515");
+
+  /* check connection */
+  if ($mysqli->connect_errno) {
+      printf("Connect failed: %s\n", $mysqli->connect_error);
+      exit();
+  }
+
+  $sql = "SELECT * FROM Posts;";
+  $result = $mysqli->query($sql);
+
+  if ($result->num_rows > 0)
+  {
+    while ($row = $result->fetch_assoc())
+    {
+      //echo "<tr><td>".$row["user_id"]."</td></tr>"; //Testing Users table
+      echo "<td>".$row["content"]."</td><td>".$row["author_id"]."</td><td><input type='checkbox' name='deleteBox[]' value=''></td></tr>";
+    }
+  }
+  else {
+    echo "0 results.";
+  }
+
+
+} //end function
+
+
+
+
+
+
+
+
+?>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Front End for User's Posts</title>
+  </head>
+  <body>
+    <form action="ViewUserPosts.php" method="post">
+          <?php selecFunc() ?>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <button type="submit" name="button">Submit.</button>
+    </form>
+  </body>
+</html>
+
+
+<?php
+
+function selecFunc()
+{
+  //creating connection
+  $mysqli = new mysqli("mysql.eecs.ku.edu", "m576b515", "aixee9Ku", "m576b515");
+  /* check connection */
+  if ($mysqli->connect_errno) {
+      printf("Connect failed: %s\n", $mysqli->connect_error);
+      exit();
+  }
+
+  $sql = "SELECT * FROM Users;";
+  $result = $mysqli->query($sql);
+
+echo "<select name='username'>";
+  if ($result->num_rows > 0)
+  {
+    while ($row = $result->fetch_assoc())
+    {
+      echo "<option value='" . $row['user_id'] ."'>" . $row['user_id'] ."</option>";
+    }
+  }
+  else {
+    echo "0 results.";
+  }
+echo "</select>";
+
+  $mysqli->close();
+}
+
+
+?>
