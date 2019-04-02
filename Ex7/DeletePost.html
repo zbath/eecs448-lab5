@@ -43,7 +43,7 @@ function dewIt()
     while ($row = $result->fetch_assoc())
     {
       //echo "<tr><td>".$row["user_id"]."</td></tr>"; //Testing Users table
-      echo "<td>".$row["content"]."</td><td>".$row["author_id"]."</td><td><input type='checkbox' name='deleteBox[]' value=''></td></tr>";
+      echo "<td>".$row["content"]."</td><td>".$row["author_id"]."</td><td><input type=\"checkbox\" name=\"deleteBox[]\" value=\"".$row["post_id"]."\"></td></tr>";
     }
   }
   else {

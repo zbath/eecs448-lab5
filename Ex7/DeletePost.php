@@ -6,7 +6,6 @@
   </head>
   <body>
     <h1>After part for deleting information area.</h1>
-    <p>These ids will be deleted:<br></p>
     <?php deleteDisplay() ?>
   </body>
 </html>
@@ -31,7 +30,7 @@ function deleteDisplay()
   else
   {
     $num = count($boxes); //number of checked boxes
-    echo "You will be deleting: ".$num." post(s)<br>";
+    echo "You will be deleting: ".$num." post(s)<br>---------------------------------------------<br>";
 
     $query = "SELECT * FROM Posts";
     if ($stmt = mysqli_prepare($mysqli, $query)) {
@@ -43,18 +42,19 @@ function deleteDisplay()
       mysqli_stmt_store_result($stmt);
       $number = mysqli_stmt_num_rows($stmt);
 
-      printf("Number of total posts: %d.\n", mysqli_stmt_num_rows($stmt));
+      printf("Total number of posts in Posts: %d\n<br>---------------------------------------------<br>", mysqli_stmt_num_rows($stmt));
+
+      echo "<br>Begin deletion<br>";
 
       for ($i=0; $i < $number; $i++)
       {
-
-        //$sql = "DELETE FROM Posts WHERE post_id = '$i';"; //only a statement for now so I do not delete all the stuff I need to test
-        if(isset($_POST['deleteBox'][2])) //[] is the number of boxes checked, not the position checked -__- FUUUU
-        {
-          echo "<br>ran ".$i;
-          //echo "This is the post: ".$_POST['deleteBox'][$i];
-          //echo "<br>Index ".$i." was selected<br>";
-        }
+          if($_POST['deleteBox'][$i] != "") //if we pass over a value, the box has been checked
+          {
+            echo "----------------------------------<br>***post_id to be deleted: ".$_POST['deleteBox'][$i]."***<br>";
+          }
+          $toDelete = $_POST['deleteBox'][$i];
+          $sql = "DELETE FROM Posts WHERE post_id = '$toDelete'";
+          $result = $mysqli->query($sql);
       }
 
       /* close statement */
@@ -63,6 +63,7 @@ function deleteDisplay()
 
 
   }
+  echo "<br><br>End deletion.";
   $mysqli->close();
 }
  ?>
